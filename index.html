@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<HEAD>
+    <style>
+        h1 {
+    text-align: center;
+    color:#EAA64D; 
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    font-size: 64px; /* Increased font size - changed here */
+}
+
+        .button-container {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-top: 20px;
+
+        }
+        body {
+            background-color: beige;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        button {
+    background-color: #7B4019;
+    font-style:  'roboto','arial',sans-serif;
+    padding: 10px 30px; /*space between text and button wall*/
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
+    color:#ffffff;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s ;
+    animation: pulse 1s infinite ease-in-out;
+    margin: 0 10px;
+        }
+ 
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+    button:hover{
+        transform:scale(1.1);
+        background-color: #5C4033 ;
+
+    }
+    </style>
+    <title> Stopwatch </title>
+</HEAD>
+
+
+<body>
+    
+    <h1>Stopwatch
+        
+    </h1>
+    <audio id="clicksound" src="click.mp3" preload="auto">
+    </audio>
+    <!--working button is this one-->
+    
+<!--script for button sound-->
+    <script>
+         function playsound() {
+            const sound= document.getElementById("clicksound");
+            sound.currentTime= 0; 
+            sound.play();
+         }
+    </script>
+  
+  
+  <!--script for functioning buttons -->
+   <script>
+     let seconds=0;
+     let timerInterval=null;
+     
+     //function for timer display
+     function updateDisplay() {
+        const min= String(Math.floor(seconds/60)).padStart(2, '0');
+        const sec= String(seconds % 60).padStart(2, '0');
+        document.getElementById('timer').textContent = `${min}:${sec}`;
+
+      }
+
+      //to start the stopwatch
+      function startTimer() {
+    if (timerInterval) return; //prevent multiple timer
+    timerInterval = setInterval (() => {
+        seconds++;
+        updateDisplay();
+
+    },1000); //run every second
+
+      }
+// pause the timer
+    function pauseTimer() {
+        clearInterval(timerInterval);
+        timerInterval= null;
+        }
+      //reset the stopwatch
+      function resetTimer () {
+    pauseTimer();
+    seconds=0;
+    updateDisplay();
+
+      }
+    
+    updateDisplay(); //show00:00 at the start
+
+   </script>
+
+   <div id="timer" style="font-size: 40px; text-align: center; color: #5C4033; ">00:00</div>
+    
+   <!--to group/div elements and align them-->
+    <div class="button-container">
+        <button onclick="startTimer(); playsound() ">Start</button>
+        <button onclick="pauseTimer(); playsound() ">Pause</button>
+        <button onclick="resetTimer(); playsound() ">Reset</button>
+    
+    </div>
+
+    
+</body>
+</html>
